@@ -1,0 +1,33 @@
+void setup() {
+  Serial.begin(9600);
+  dac.begin(0x62);
+}
+
+void loop() {
+    
+  if (Serial.available()) 
+  {  
+    Serial.println("Please Enter the pressure: ");
+    P = Serial.readString().toFloat();
+    I = (P+7.5)*8/15;
+    V = (I-4)/3.2;
+    temp_dac_input = V*4095/5;  
+    dac_in = (int)temp_dac_input;
+    dac.setVoltage(dac_in, false);
+    Serial.print("Pressure = ");
+    Serial.println(P);
+    
+    Serial.print("Voltage supplied = ");
+    Serial.print(V);
+    Serial.println(" Volts");
+    
+    Serial.print("Current = ");
+    Serial.print(I);
+    Serial.println("mA");
+
+    Serial.print("Circuit Voltage = ");
+    Serial.print(I/10);
+    Serial.println(" Volts");
+  }
+  
+}
